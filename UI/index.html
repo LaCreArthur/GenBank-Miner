@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BIOSTATS</title>
+
+    <meta name="description" content="projet BIOINFO Master ILC 2016">
+    <meta name="author" content="team CALIF!">
+
+    <link href="css/bootflat.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="tree/treeStyles.css" media="screen">
+
+
+</head>
+<body>
+<div class="" style="background-color:#AAB2BD">
+    <div class="container">
+        <h3>
+            Projet de Bio-Informatique<br/>
+            <small>Statistiques sur les organismes de la base GenBank</small>
+        </h3>
+    </div>
+</div>
+
+<div class="container documents">
+    <div class="jumbotron">
+        <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+            <div class="carousel-inner">
+
+                <!---->
+                <!--ETAPE UNE -->
+                <!-- SELECTION -->
+
+                <div class="item active">
+                    <div class="row jumbotron-contents">
+                        <div class="col-md-12">
+                            <h3> Etape 1
+                                <small style="color:#AAB2BD">Initialisation</small>
+                            </h3>
+                            <form name="myForm">
+                                <div class="row">
+                                    Sélectionnez les royaumes à analyser :
+                                    <select class="selectpicker" multiple name="select" data-placement="top" data-content="Au moins un royaume doit être séléctionné pour démarrer.">
+                                        <!-- Valeurs a modifier au besoin et a completer -->
+                                        <option value="1" selected="selected" class="selected" id="Euk">Eucaryotes
+                                        </option>
+                                        <option value="2" selected="selected" class="selected" id="Pro">Procaryotes
+                                        </option>
+                                        <option value="3" selected="selected" class="selected" id="Vir">Virus</option>
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <br>
+                                    <input id="cb1" type="checkbox" name="cb_dl_full">
+                                    Télécharger les génomes complets (.txt) <br>
+                                    <input id="cb2" type="checkbox" name="cb_dl_valid">
+                                    Télécharger les gènes valides (.txt) <br>
+                                    <input id="cb3" type="checkbox" name="cb_dl_archiv">
+                                    Archivage des données (.zip)
+                                    <br>
+                                    <br>
+                                </div>
+                                <div class="row alert alert-info">
+                                    <h4>Téléchargement</h4>
+                                    <p>
+                                        Veillez indiquer le dossier de téléchargement des données.
+                                        <strong> dans lequel sera créé le dossiers Results </strong>
+                                    </p>
+                                    <br>
+                                    <div class="col-md-10">
+                                        <input name="pathText"
+                                               class="form-control"
+                                               placeholder="./" type="text">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a class="btn btn-primary" onclick="launchFC();">
+                                            Parcourir </a>
+                                    </div>
+                                    <br><br><br>
+                                    <p><strong>Si vous avez déja un dossier Results local</strong>, indiquez le chemin du
+                                        dossier le contenant. Les organismes seront <strong>mis à jour</strong> et le téléchargement
+                                        sera nettement <strong>plus rapide</strong>.
+                                    </p>
+                                </div>
+                            </form>
+                            <div class="row alert alert-warning">
+                                <h4>Attention !</h4>
+                                <p>La récupération des données depuis <a class="alert-link">GenBank</a>
+                                    est <strong>longue</strong> et
+                                    nécessite une <strong>connexion internet stable</strong> (Préférez
+                                    le branchement ethernet). </p>
+                                <p>
+                                    Assurez-vous d'avoir
+                                    <strong>suffisament de place sur votre disque dur</strong>
+                                    car beaucoup de
+                                    fichiers seront gérénés (Surtout si vous téléchargez les génomes
+                                    complets en .txt)</p>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8">
+                                    <span id="load"> <img src="loading.gif" height="32"> Initialisation de la connexion aux serveurs du NCBI ... </span>
+                                </div>
+                                <div class="col-md-2" id="buttonHolder">
+                                    <!--ici les boutons sont ajouter par javascript déclenché par la classe UI -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!---->
+                <!--ETAPE DEUX -->
+                <!-- TELECHARGEMENT -->
+
+                <div class="item">
+                    <div class="row jumbotron-contents">
+                        <div class="col-md-12">
+
+                            <h3>Etape 2
+                                <small id="traitmntSmall" style="color:#AAB2BD">Traitement</small>
+                            </h3>
+                            <div class="row">
+                                <div id="estim">Temps restant :
+                                    <i>estimation en cours...e</i>
+                                </div>
+                                <div class="progress" style="margin-top : 10px;">
+                                    <div id="probar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                         style="width: 0.1%;">0%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h4 class="panel-title">
+                                    <a id="displayDetails" data-toggle="collapse" data-parent="#details"
+                                       href="#collapseTwo" style="float:right"
+                                       onclick="if(this.innerHTML =='Afficher details...'){this.innerHTML = 'Masquer details'}else{this.innerHTML = 'Afficher details...'}">Masquer
+                                        details</a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div id="terminal1" class="terminal" >
+                                    </div>
+                                    <div class="progress" style="margin : 10px 0px 2px 0px;">
+                                        <div id="orgbar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100"
+                                             style="width: 0.1%;">0%
+                                        </div>
+                                    </div>
+                                    <div id="terminal2" class="terminal" >
+                                    </div>
+                                </div>
+                                <!--href="#carousel" data-slide="prev" data-dismiss="modal"-->
+                                <a style="float: right;" class="btn btn-warning" id="btnStop" onclick="pauseRun();">Stopper</a>
+                                <i id="wait" style="float: right; margin-right: 10px"> </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!---->
+                <!--ETAPE TROIS -->
+                <!-- ARBORESCENCE -->
+
+                <div class="item">
+                    <div class="row jumbotron-contents">
+                        <div class="col-md-12">
+                            <h3> Etape 3 <br>
+                                <small style="color:#AAB2BD"> Arborescence des organismes téléchargés</small>
+                            </h3>
+                            <div class="row alert alert-success">
+                                <h4>Operation terminée !</h4>
+                                <p>
+                                    Vous pouvez consulter l'arborescence et ouvrir les fichiers de statistique depuis celle-ci.</p>
+                            </div>
+                            <div class="row">
+                                <div id="treeBox" style="visibility: hidden;">
+                                    <!-- attributs speciaux : checked disabled -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<a class="btn btn-warning" href="#carousel" data-slide="prev">-->
+                <!--<span class="glyphicon glyphicon-chevron-left"> retour </span>-->
+                <!--</a>-->
+                <!--<a class="btn btn-success" href="#carousel" data-slide="next">-->
+                <!--<span class="glyphicon glyphicon-chevron-right"> suivant </span>-->
+                <!--</a>-->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content alert alert-warning" style="padding-bottom: 50px;">
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.7/angular.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<script src="js/scripts.js"></script>
+<script> //TODO reecrire ce scipt en jquery correct
+$(document).ready(function () {
+    var select = myForm.elements['select'];
+    var options = select && select.options;
+    if (options.length == 0) $("#btnConfirm").attr("class", "btn btn-success disabled");
+});
+</script>
+</body>
+</html>

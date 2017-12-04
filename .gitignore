@@ -1,0 +1,10 @@
+/bin/
+/out/
+.idea/
+.iml
+Gene/*
+Genome/*
+Results/*
+/Genome.zip
+/Gene.zip
+/Results.zip

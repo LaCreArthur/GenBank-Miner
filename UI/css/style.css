@@ -1,0 +1,166 @@
+div[data-angular-treeview] {
+  /* prevent user selection */
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  /* default */
+  font-family: Tahoma;
+  font-size:13px;
+  text-decoration: none;
+}
+
+div[data-tree-model] ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: none;
+  overflow: hidden;
+  color: #1a1a1a
+}
+
+div[data-tree-model] li {
+  position: relative;
+  padding: 2px 0 0 20px;
+  line-height: 20px;
+}
+
+div[data-tree-model] li .expanded {
+  padding: 1px 10px;
+  background-image: url("http://cfile23.uf.tistory.com/image/205B973A50C13F4B19D9BD");
+  background-repeat: no-repeat;
+}
+
+div[data-tree-model] li .collapsed {
+  padding: 1px 10px;
+  background-image: url("http://cfile23.uf.tistory.com/image/1459193A50C13F4B1B05FB");
+  background-repeat: no-repeat;
+}
+
+div[data-tree-model] li .normal {
+  padding: 1px 10px;
+  background-image: url("http://cfile23.uf.tistory.com/image/165B663A50C13F4B196CCA");
+  background-repeat: no-repeat;
+}
+
+div[data-tree-model] li i, div[data-tree-model] li span {
+  cursor: pointer;
+}
+
+div[data-tree-model] li .selected {
+  background-color: #aaddff;
+  font-weight: bold;
+  padding: 1px 5px;
+}
+
+.bootstrap-select>.dropdown-toggle{
+  width: 100% !important;
+}
+
+.terminal {
+  font-family: Menlo, Courier New;
+  font-size: 12px;
+  text-rendering: optimizeLegibility;
+  font-weight: bold;
+  color: #F5F7FA;
+  background-color: #434A54;
+  border: solid;
+  border-color: #AAB2BD;
+  border-radius: 4px;
+  overflow:auto;
+  height: 18em;
+  line-height: 1em;
+}
+
+.terminal > .terminal--output:before {
+  content: "➜ ";
+}
+
+.terminal > .terminal--output {
+  font-style: italic;
+  color: #F5F7FA;
+}
+
+.terminal * {
+  margin: 5px 5px 5px 5px;
+}
+
+.terminal:last-child:after {
+  -webkit-animation: blink 0.75s infinite;
+  -moz-animation: blink 0.75s infinite;
+  -o-animation: blink 0.75s infinite;
+  animation: blink 0.75s infinite;
+  margin-left: 5px;
+  width: 28px;
+  content: "|";
+  background: #F5F7FA;
+}
+.terminal > .terminal--output.is-console:before {
+  margin-right: 10px;
+  content: "✔";
+}
+
+.terminal > .terminal--output.is-console {
+  font-style : normal;
+  color: #A0D468;
+}
+
+.terminal > .terminal--exception:before {
+  margin-right: 10px;
+  content: '❌';
+}
+
+.terminal > .terminal--exception {
+  color: #ED5565;
+  font-weight: bold;
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-moz-keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-ms-keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+#displayDetails {
+    float : right;
+    margin-top: -20px;
+}
+
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+  width: 91% !important;
+  z-index: 0;
+}
+
+.form-control{
+    background-color: #aae1f4;
+    border-color: #4fc1e9;
+}
